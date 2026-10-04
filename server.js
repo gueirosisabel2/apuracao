@@ -14,28 +14,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/fotos', express.static(path.join(__dirname, 'public', 'fotos')));
 
 // API Routes 100% Real TSE
-app.get('/api/status', (req, res) => {
+app.get(['/api/status', '/status'], async (req, res) => {
   try {
-    const status = tseService.getStatus();
+    const status = await tseService.getStatus();
     res.json(status);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-app.get('/api/destaque', (req, res) => {
+app.get(['/api/destaque', '/destaque'], async (req, res) => {
   try {
-    const destaque = tseService.getDestaqueCasal22();
+    const destaque = await tseService.getDestaqueCasal22();
     res.json(destaque);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-app.get('/api/cidades', (req, res) => {
+app.get(['/api/cidades', '/cidades'], async (req, res) => {
   try {
     const { busca, ordenarPor, ordem, regiao } = req.query;
-    const cidades = tseService.getCidades(busca, ordenarPor, ordem, regiao);
+    const cidades = await tseService.getCidades(busca, ordenarPor, ordem, regiao);
     res.json({
       total: cidades.length,
       cidades
@@ -45,7 +45,7 @@ app.get('/api/cidades', (req, res) => {
   }
 });
 
-app.get('/api/candidatos', async (req, res) => {
+app.get(['/api/candidatos', '/candidatos'], async (req, res) => {
   try {
     const { cargo, busca, partido, uf } = req.query;
     const candidatos = await tseService.getCandidatosPorCargo(cargo, busca, partido, uf);
@@ -60,7 +60,7 @@ app.get('/api/candidatos', async (req, res) => {
   }
 });
 
-app.post('/api/refresh', async (req, res) => {
+app.post(['/api/refresh', '/refresh'], async (req, res) => {
   try {
     await tseService.refreshLiveTseData();
     res.json({ success: true, timestamp: new Date().toISOString() });
@@ -74,11 +74,15 @@ app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`🇧🇷 SISTEMA OFICIAL DE APURAÇÃO TSE 2026`);
-  console.log(`🏛️ Destaque: Capitão Augusto & Dani Alonso`);
-  console.log(`🌐 Servidor rodando em: http://localhost:${PORT}`);
-  console.log(`📡 Conexão direta com resultados.tse.jus.br`);
-  console.log(`====================================================`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`🇧🇷 SISTEMA OFICIAL DE APURAÇÃO TSE 2026`);
+    console.log(`🏛️ Destaque: Capitão Augusto & Dani Alonso`);
+    console.log(`🌐 Servidor rodando em: http://localhost:${PORT}`);
+    console.log(`📡 Conexão direta com resultados.tse.jus.br`);
+    console.log(`====================================================`);
+  });
+}
+
+module.exports = app;

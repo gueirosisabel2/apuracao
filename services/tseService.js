@@ -1,7 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-
-const CITIES_FILE = path.join(__dirname, '..', 'data', 'cities.json');
+const citiesData = require('../data/cities.json');
 
 class TseService {
   constructor() {
@@ -20,24 +17,21 @@ class TseService {
     this.lastCityUpdate = 0;
     this.isUpdatingCities = false;
 
-    this.loadBaseCities();
+    this.baseCities = Array.isArray(citiesData) ? citiesData : [];
     
     // Initial fetch of live data
-    this.refreshLiveTseData().catch(err => console.error('Erro na carga inicial TSE:', err.message));
+    this.initialLoadPromise = this.refreshLiveTseData().catch(err => console.error('Erro na carga inicial TSE:', err.message));
 
-    // Background poller every 15 seconds to keep TSE data warm
-    setInterval(() => {
-      this.refreshLiveTseData().catch(err => console.error('Erro no poller TSE:', err.message));
-    }, 15000);
+    // Background poller only in persistent environment (not serverless)
+    if (!process.env.VERCEL) {
+      setInterval(() => {
+        this.refreshLiveTseData().catch(err => console.error('Erro no poller TSE:', err.message));
+      }, 15000);
+    }
   }
 
   loadBaseCities() {
-    try {
-      this.baseCities = JSON.parse(fs.readFileSync(CITIES_FILE, 'utf8'));
-    } catch (err) {
-      console.error('Erro ao ler cities.json:', err);
-      this.baseCities = [];
-    }
+    this.baseCities = Array.isArray(citiesData) ? citiesData : [];
   }
 
   normalizeStr(str) {
@@ -393,7 +387,15 @@ class TseService {
     }
   }
 
-  getStatus() {
+  async getStatus() {
+    if (!this.liveStatusSP) {
+      if (this.initialLoadPromise) {
+        await this.initialLoadPromise;
+      } else {
+        await this.refreshLiveTseData();
+      }
+    }
+
     if (this.liveStatusSP) {
       return this.liveStatusSP;
     }
@@ -419,7 +421,15 @@ class TseService {
     };
   }
 
-  getDestaqueCasal22() {
+  async getDestaqueCasal22() {
+    if (!this.liveCasal22) {
+      if (this.initialLoadPromise) {
+        await this.initialLoadPromise;
+      } else {
+        await this.refreshLiveTseData();
+      }
+    }
+
     if (this.liveCasal22) {
       return this.liveCasal22;
     }
@@ -468,7 +478,14 @@ class TseService {
     };
   }
 
-  getCidades(busca = '', ordenarPor = 'capitao_votos', ordem = 'desc', regiao = 'todas') {
+  async getCidades(busca = '', ordenarPor = 'capitao_votos', ordem = 'desc', regiao = 'todas') {
+    if (!this.liveCidades || this.liveCidades.length === 0) {
+      if (this.initialLoadPromise) {
+        await this.initialLoadPromise;
+      } else {
+        await this.refreshLiveTseData();
+      }
+    }
     let lista = [...this.liveCidades];
 
     if (busca && busca.trim()) {
