@@ -48,7 +48,7 @@ class TseService {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 7000);
+      const timeout = setTimeout(() => controller.abort(), 4500);
       const res = await fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)',
@@ -202,31 +202,18 @@ class TseService {
         situacao: 'Registrada (Aguardando votos)'
       };
 
-      // 3. Atualizar cidades em background
-      await this.updateLiveCities();
-
-      // Cidades em destaque prioritário: Assis, Ourinhos, Marília e Bauru
       const DESTAQUE_NOMES = ['Marília', 'Ourinhos', 'Bauru', 'Assis'];
-      const topCapitao = DESTAQUE_NOMES.map(nome => {
+      const buildTopCidades = (candKey) => DESTAQUE_NOMES.map(nome => {
         const c = this.liveCidades.find(item => item.nome.toLowerCase() === nome.toLowerCase());
         return {
           cidade: nome,
-          votos: c ? c.capitaoAugusto.votos : 0,
-          percentual: c ? c.capitaoAugusto.percentual : 0,
-          posicao: c ? c.capitaoAugusto.posicao : 1
+          votos: c ? c[candKey].votos : 0,
+          percentual: c ? c[candKey].percentual : 0,
+          posicao: c ? c[candKey].posicao : 1
         };
       });
 
-      const topDani = DESTAQUE_NOMES.map(nome => {
-        const c = this.liveCidades.find(item => item.nome.toLowerCase() === nome.toLowerCase());
-        return {
-          cidade: nome,
-          votos: c ? c.daniAlonso.votos : 0,
-          percentual: c ? c.daniAlonso.percentual : 0,
-          posicao: c ? c.daniAlonso.posicao : 1
-        };
-      });
-
+      // Define liveCasal22 imediatamente com os votos estaduais do TSE
       this.liveCasal22 = {
         capitaoAugusto: {
           nome: capitaoCand.nome || 'JOSE AUGUSTO ROSA',
@@ -240,7 +227,7 @@ class TseService {
           foto: '/fotos/capitao.png',
           cargo: 'Deputado Federal',
           uf: 'SP',
-          topCidades: topCapitao
+          topCidades: buildTopCidades('capitaoAugusto')
         },
         daniAlonso: {
           nome: daniCand.nome || 'DANIELE MAZUQUELI ALONSO ROSA',
@@ -254,10 +241,20 @@ class TseService {
           foto: '/fotos/dani.png',
           cargo: 'Deputada Estadual',
           uf: 'SP',
-          topCidades: topDani
+          topCidades: buildTopCidades('daniAlonso')
         },
         cidades: this.liveCidades
       };
+
+      // 3. Atualizar cidades oficiais do TSE
+      await this.updateLiveCities();
+
+      // Atualiza as cidades no liveCasal22
+      if (this.liveCasal22) {
+        this.liveCasal22.capitaoAugusto.topCidades = buildTopCidades('capitaoAugusto');
+        this.liveCasal22.daniAlonso.topCidades = buildTopCidades('daniAlonso');
+        this.liveCasal22.cidades = this.liveCidades;
+      }
 
     } catch (err) {
       console.error('Erro ao atualizar dados live TSE:', err);
@@ -271,10 +268,18 @@ class TseService {
 
     try {
       const cidadesAtualizadas = [];
-      const chunkSize = 5;
+      const chunkSize = 10;
 
-      for (let i = 0; i < this.baseCities.length; i += chunkSize) {
-        const chunk = this.baseCities.slice(i, i + chunkSize);
+      // Ordena para que as 4 cidades de destaque fiquem no primeiro lote
+      const DESTAQUES = ['marília', 'ourinhos', 'bauru', 'assis'];
+      const sortedBaseCities = [...this.baseCities].sort((a, b) => {
+        const aDest = DESTAQUES.includes(a.nome.toLowerCase()) ? -1 : 1;
+        const bDest = DESTAQUES.includes(b.nome.toLowerCase()) ? -1 : 1;
+        return aDest - bDest;
+      });
+
+      for (let i = 0; i < sortedBaseCities.length; i += chunkSize) {
+        const chunk = sortedBaseCities.slice(i, i + chunkSize);
         const results = await Promise.all(chunk.map(async (baseCity) => {
           const cod = baseCity.codigoTse;
           const uFed = `https://resultados.tse.jus.br/oficial/ele2026/${this.eleicaoEstadual}/dados/sp/sp${cod}-c0006-e006259-u.json`;
