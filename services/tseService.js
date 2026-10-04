@@ -211,26 +211,27 @@ class TseService {
       // 3. Atualizar cidades em background
       await this.updateLiveCities();
 
-      // Top Cidades apuradas
-      const topCapitao = [...this.liveCidades]
-        .sort((a, b) => b.capitaoAugusto.votos - a.capitaoAugusto.votos)
-        .slice(0, 5)
-        .map(c => ({
-          cidade: c.nome,
-          votos: c.capitaoAugusto.votos,
-          percentual: c.capitaoAugusto.percentual,
-          posicao: c.capitaoAugusto.posicao
-        }));
+      // Cidades em destaque prioritário: Assis, Ourinhos, Marília e Bauru
+      const DESTAQUE_NOMES = ['Marília', 'Ourinhos', 'Bauru', 'Assis'];
+      const topCapitao = DESTAQUE_NOMES.map(nome => {
+        const c = this.liveCidades.find(item => item.nome.toLowerCase() === nome.toLowerCase());
+        return {
+          cidade: nome,
+          votos: c ? c.capitaoAugusto.votos : 0,
+          percentual: c ? c.capitaoAugusto.percentual : 0,
+          posicao: c ? c.capitaoAugusto.posicao : 1
+        };
+      });
 
-      const topDani = [...this.liveCidades]
-        .sort((a, b) => b.daniAlonso.votos - a.daniAlonso.votos)
-        .slice(0, 5)
-        .map(c => ({
-          cidade: c.nome,
-          votos: c.daniAlonso.votos,
-          percentual: c.daniAlonso.percentual,
-          posicao: c.daniAlonso.posicao
-        }));
+      const topDani = DESTAQUE_NOMES.map(nome => {
+        const c = this.liveCidades.find(item => item.nome.toLowerCase() === nome.toLowerCase());
+        return {
+          cidade: nome,
+          votos: c ? c.daniAlonso.votos : 0,
+          percentual: c ? c.daniAlonso.percentual : 0,
+          posicao: c ? c.daniAlonso.posicao : 1
+        };
+      });
 
       this.liveCasal22 = {
         capitaoAugusto: {
@@ -353,11 +354,14 @@ class TseService {
             }
           }
 
+          const isDestaque = ['Assis', 'Ourinhos', 'Marília', 'Bauru'].includes(baseCity.nome);
+
           return {
             id: baseCity.id,
             nome: baseCity.nome,
             regiao: baseCity.regiao,
             codigoTse: baseCity.codigoTse,
+            isDestaque: isDestaque,
             totalEleitores: baseCity.totalEleitores || 0,
             secoesTotalizadas: parseFloat(pctApurado.replace(',', '.')) || 0,
             secoesTotalizadasStr: pctApurado,
@@ -434,7 +438,12 @@ class TseService {
         foto: '/fotos/capitao.png',
         cargo: 'Deputado Federal',
         uf: 'SP',
-        topCidades: []
+        topCidades: [
+          { cidade: 'Marília', votos: 0, percentual: 0, posicao: 1 },
+          { cidade: 'Ourinhos', votos: 0, percentual: 0, posicao: 1 },
+          { cidade: 'Bauru', votos: 0, percentual: 0, posicao: 1 },
+          { cidade: 'Assis', votos: 0, percentual: 0, posicao: 1 }
+        ]
       },
       daniAlonso: {
         nome: 'DANIELE MAZUQUELI ALONSO ROSA',
@@ -448,7 +457,12 @@ class TseService {
         foto: '/fotos/dani.png',
         cargo: 'Deputada Estadual',
         uf: 'SP',
-        topCidades: []
+        topCidades: [
+          { cidade: 'Marília', votos: 0, percentual: 0, posicao: 1 },
+          { cidade: 'Ourinhos', votos: 0, percentual: 0, posicao: 1 },
+          { cidade: 'Bauru', votos: 0, percentual: 0, posicao: 1 },
+          { cidade: 'Assis', votos: 0, percentual: 0, posicao: 1 }
+        ]
       },
       cidades: this.liveCidades
     };
@@ -467,7 +481,12 @@ class TseService {
     }
 
     if (regiao && regiao !== 'todas') {
-      lista = lista.filter(c => c.regiao.toLowerCase() === regiao.toLowerCase());
+      if (regiao.toLowerCase() === 'destaque') {
+        const DESTAQUE_NOMES = ['assis', 'ourinhos', 'marília', 'marilia', 'bauru'];
+        lista = lista.filter(c => DESTAQUE_NOMES.includes(this.normalizeStr(c.nome)));
+      } else {
+        lista = lista.filter(c => c.regiao.toLowerCase() === regiao.toLowerCase());
+      }
     }
 
     lista.sort((a, b) => {

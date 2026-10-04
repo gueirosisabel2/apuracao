@@ -241,15 +241,19 @@
               <!-- Top Cities Highlights -->
               <div>
                 <p class="text-xs text-slate-600 font-bold mb-1.5 flex items-center gap-1.5">
-                  <i class="fa-solid fa-trophy text-patriota-amareloOuro text-xs"></i> Cidades Mais Votadas:
+                  <i class="fa-solid fa-star text-patriota-amareloOuro text-xs"></i> Cidades em Destaque:
                 </p>
-                <div id="capitao-top-cidades" class="grid grid-cols-3 gap-2 text-xs">
+                <div id="capitao-top-cidades" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                   <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-                    <p class="text-slate-600 font-medium truncate">Marília</p>
+                    <p class="text-slate-600 font-medium truncate">Assis</p>
                     <p class="font-black text-patriota-verde text-sm">0</p>
                   </div>
                   <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
                     <p class="text-slate-600 font-medium truncate">Ourinhos</p>
+                    <p class="font-black text-patriota-verde text-sm">0</p>
+                  </div>
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Marília</p>
                     <p class="font-black text-patriota-verde text-sm">0</p>
                   </div>
                   <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
@@ -307,19 +311,23 @@
               <!-- Top Cities Highlights -->
               <div>
                 <p class="text-xs text-slate-600 font-bold mb-1.5 flex items-center gap-1.5">
-                  <i class="fa-solid fa-trophy text-patriota-amareloOuro text-xs"></i> Cidades Mais Votadas:
+                  <i class="fa-solid fa-star text-patriota-amareloOuro text-xs"></i> Cidades em Destaque:
                 </p>
-                <div id="dani-top-cidades" class="grid grid-cols-3 gap-2 text-xs">
+                <div id="dani-top-cidades" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Assis</p>
+                    <p class="font-black text-patriota-azul text-sm">0</p>
+                  </div>
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Ourinhos</p>
+                    <p class="font-black text-patriota-azul text-sm">0</p>
+                  </div>
                   <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
                     <p class="text-slate-600 font-medium truncate">Marília</p>
                     <p class="font-black text-patriota-azul text-sm">0</p>
                   </div>
                   <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
                     <p class="text-slate-600 font-medium truncate">Bauru</p>
-                    <p class="font-black text-patriota-azul text-sm">0</p>
-                  </div>
-                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-                    <p class="text-slate-600 font-medium truncate">Ourinhos</p>
                     <p class="font-black text-patriota-azul text-sm">0</p>
                   </div>
                 </div>
@@ -370,6 +378,9 @@
         <div class="flex flex-wrap items-center gap-1.5 text-xs">
           <span class="text-slate-500 font-semibold mr-1 hidden sm:inline">Região:</span>
           <button class="btn-regiao-filter active px-3.5 py-1.5 rounded-xl bg-patriota-verde text-white font-bold transition shadow-xs" data-regiao="todas">Todas</button>
+          <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-extrabold transition shadow-xs" data-regiao="destaque">
+            <i class="fa-solid fa-star text-amber-500 mr-1"></i> 4 Cidades Destaque
+          </button>
           <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition" data-regiao="Centro-Oeste Paulista">Centro-Oeste</button>
           <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition" data-regiao="Região de Ourinhos">Ourinhos</button>
           <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition" data-regiao="Região de Bauru">Bauru</button>

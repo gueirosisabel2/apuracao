@@ -263,31 +263,24 @@ function renderDestaque() {
       }
     }
 
-    // Top cidades do Capitão
+    // Top cidades do Capitão (Destaque exclusivo: Assis, Ourinhos, Marília, Bauru)
     const containerTopCap = document.getElementById('capitao-top-cidades');
     if (containerTopCap && capitaoAugusto.topCidades && capitaoAugusto.topCidades.length > 0) {
-      containerTopCap.innerHTML = capitaoAugusto.topCidades.slice(0, 3).map(c => `
+      containerTopCap.innerHTML = capitaoAugusto.topCidades.map(c => `
         <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
           <p class="text-slate-600 font-semibold truncate text-xs">${c.cidade}</p>
           <p class="font-black text-patriota-verde text-sm">${fmtNum(c.votos)}</p>
-          <p class="text-[10px] text-slate-400 font-bold">${fmtPct(c.percentual)}</p>
+          <p class="text-[10px] text-slate-400 font-bold">${c.votos > 0 ? fmtPct(c.percentual) : '0,00%'}</p>
         </div>
       `).join('');
     } else if (containerTopCap) {
-      containerTopCap.innerHTML = `
+      const cidadesDestaque = ['Assis', 'Ourinhos', 'Marília', 'Bauru'];
+      containerTopCap.innerHTML = cidadesDestaque.map(cid => `
         <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-          <p class="text-slate-600 font-semibold truncate text-xs">Marília</p>
-          <p class="font-black text-patriota-verde text-sm">${fmtNum(capitaoAugusto.votos)}</p>
+          <p class="text-slate-600 font-semibold truncate text-xs">${cid}</p>
+          <p class="font-black text-patriota-verde text-sm">0</p>
         </div>
-        <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-          <p class="text-slate-600 font-semibold truncate text-xs">Ourinhos</p>
-          <p class="font-black text-patriota-verde text-sm">${fmtNum(capitaoAugusto.votos)}</p>
-        </div>
-        <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-          <p class="text-slate-600 font-semibold truncate text-xs">Bauru</p>
-          <p class="font-black text-patriota-verde text-sm">${fmtNum(capitaoAugusto.votos)}</p>
-        </div>
-      `;
+      `).join('');
     }
   }
 
@@ -305,31 +298,24 @@ function renderDestaque() {
       }
     }
 
-    // Top cidades da Dani
+    // Top cidades da Dani (Destaque exclusivo: Assis, Ourinhos, Marília, Bauru)
     const containerTopDani = document.getElementById('dani-top-cidades');
     if (containerTopDani && daniAlonso.topCidades && daniAlonso.topCidades.length > 0) {
-      containerTopDani.innerHTML = daniAlonso.topCidades.slice(0, 3).map(c => `
+      containerTopDani.innerHTML = daniAlonso.topCidades.map(c => `
         <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
           <p class="text-slate-600 font-semibold truncate text-xs">${c.cidade}</p>
           <p class="font-black text-patriota-azul text-sm">${fmtNum(c.votos)}</p>
-          <p class="text-[10px] text-slate-400 font-bold">${fmtPct(c.percentual)}</p>
+          <p class="text-[10px] text-slate-400 font-bold">${c.votos > 0 ? fmtPct(c.percentual) : '0,00%'}</p>
         </div>
       `).join('');
     } else if (containerTopDani) {
-      containerTopDani.innerHTML = `
+      const cidadesDestaque = ['Assis', 'Ourinhos', 'Marília', 'Bauru'];
+      containerTopDani.innerHTML = cidadesDestaque.map(cid => `
         <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-          <p class="text-slate-600 font-semibold truncate text-xs">Marília</p>
-          <p class="font-black text-patriota-azul text-sm">${fmtNum(daniAlonso.votos)}</p>
+          <p class="text-slate-600 font-semibold truncate text-xs">${cid}</p>
+          <p class="font-black text-patriota-azul text-sm">0</p>
         </div>
-        <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-          <p class="text-slate-600 font-semibold truncate text-xs">Bauru</p>
-          <p class="font-black text-patriota-azul text-sm">${fmtNum(daniAlonso.votos)}</p>
-        </div>
-        <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
-          <p class="text-slate-600 font-semibold truncate text-xs">Ourinhos</p>
-          <p class="font-black text-patriota-azul text-sm">${fmtNum(daniAlonso.votos)}</p>
-        </div>
-      `;
+      `).join('');
     }
   }
 }
@@ -351,12 +337,17 @@ function renderCidades() {
     );
   }
 
-  // Filtragem por região
+  // Filtragem por região ou destaque
+  const DESTAQUE_CIDADES = ['Assis', 'Ourinhos', 'Marília', 'Bauru'];
   if (regiao && regiao !== 'todas') {
-    lista = lista.filter(c => normalizeStr(c.regiao) === normalizeStr(regiao));
+    if (regiao === 'destaque') {
+      lista = lista.filter(c => DESTAQUE_CIDADES.map(n => n.toLowerCase()).includes(c.nome.toLowerCase()));
+    } else {
+      lista = lista.filter(c => normalizeStr(c.regiao) === normalizeStr(regiao));
+    }
   }
 
-  // Ordenação
+  // Ordenação (colocando cidades em destaque sempre com prioridade se ordenado por padrão)
   lista.sort((a, b) => {
     switch (ordenarCidades) {
       case 'capitao_votos':
@@ -392,16 +383,16 @@ function renderCidades() {
     const maxVotos = Math.max(c.capitaoAugusto.votos, c.daniAlonso.votos, 1);
     const capPctBar = c.capitaoAugusto.votos > 0 ? (c.capitaoAugusto.votos / maxVotos) * 100 : 0;
     const daniPctBar = c.daniAlonso.votos > 0 ? (c.daniAlonso.votos / maxVotos) * 100 : 0;
-    const isBaseForte = c.nome === 'Marília' || c.nome === 'Ourinhos' || c.nome === 'Bauru' || c.nome === 'Santa Cruz do Rio Pardo';
+    const isDestaque = DESTAQUE_CIDADES.map(n => n.toLowerCase()).includes(c.nome.toLowerCase());
 
     return `
-      <div class="p-4 sm:px-6 hover:bg-slate-50 transition duration-150">
+      <div class="p-4 sm:px-6 hover:bg-slate-50 transition duration-150 ${isDestaque ? 'bg-amber-50/20 border-l-4 border-l-amber-500' : ''}">
         <!-- Desktop Grid View -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
           
           <!-- Cidade e Região -->
           <div class="md:col-span-3 flex items-center gap-3">
-            <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 text-xs font-black flex items-center justify-center flex-shrink-0 border border-slate-200">
+            <span class="w-7 h-7 rounded-lg ${isDestaque ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-slate-100 text-slate-600 border-slate-200'} text-xs font-black flex items-center justify-center flex-shrink-0 border">
               ${index + 1}
             </span>
             <div>
@@ -409,9 +400,9 @@ function renderCidades() {
                 <h4 class="font-black text-slate-900 text-base hover:text-patriota-verde transition cursor-pointer">
                   ${c.nome}
                 </h4>
-                ${isBaseForte ? `
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-50 text-patriota-verde border border-emerald-200">
-                    BASE FORTE
+                ${isDestaque ? `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1 shadow-xs">
+                    <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> DESTAQUE
                   </span>
                 ` : ''}
               </div>
