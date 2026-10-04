@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eleições 2026 | Apuração Oficial em Tempo Real - Capitão Augusto & Dani Alonso</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            patriota: {
+              verde: '#00843D',
+              verdeDark: '#00662F',
+              verdeLight: '#e6f7ee',
+              amarelo: '#FFDF00',
+              amareloOuro: '#F59E0B',
+              amareloLight: '#fef9c3',
+              azul: '#002776',
+              azulDark: '#001848',
+              azulLight: '#eff6ff',
+              branco: '#FFFFFF',
+              cinza: '#F8FAFC'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans antialiased selection:bg-emerald-600 selection:text-white">
+
+  <!-- BRAZILIAN PATRIOTIC TOP RIBBON -->
+  <div class="h-1.5 w-full bg-gradient-to-r from-patriota-verde via-patriota-amarelo to-patriota-azul"></div>
+
+  <!-- CLEAN PATRIOTIC HEADER -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-patriota-verde to-patriota-azul flex items-center justify-center shadow-md text-white text-xl font-black border-2 border-patriota-amarelo/80">
+            <span>🇧🇷</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-patriota-verde border border-emerald-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 -ml-3.5"></span>
+                APURAÇÃO AO VIVO
+              </span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-blue-50 text-patriota-azul border border-blue-200">
+                ELEIÇÕES 2026
+              </span>
+            </div>
+            <h1 class="text-lg sm:text-xl font-black tracking-tight text-slate-900 mt-0.5 flex items-center gap-1.5">
+              Eleições Gerais 2026 <span class="text-patriota-verde">• São Paulo & Brasil</span>
+            </h1>
+          </div>
+        </div>
+
+        <!-- Right Controls -->
+        <div class="flex items-center gap-3">
+          <!-- Totalização Progress Pill -->
+          <div class="hidden md:flex flex-col items-end bg-slate-50 px-4 py-2 rounded-2xl border border-slate-200">
+            <div class="flex items-center gap-2 text-xs text-slate-600">
+              <span class="font-medium">Urnas Apuradas (SP):</span>
+              <span id="header-secoes-percent" class="font-black text-patriota-verde text-sm">--%</span>
+            </div>
+            <div class="w-44 bg-slate-200 h-2 rounded-full overflow-hidden mt-1">
+              <div id="header-secoes-bar" class="bg-gradient-to-r from-patriota-verde to-patriota-amareloOuro h-full rounded-full transition-all duration-700" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Refresh Button -->
+          <button id="btn-refresh" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200 shadow-sm transition active:scale-95" title="Atualizar agora">
+            <i id="refresh-icon" class="fa-solid fa-arrows-rotate text-patriota-verde"></i>
+            <span class="hidden sm:inline">Atualizar</span>
+            <span id="countdown-badge" class="bg-slate-100 px-1.5 py-0.5 rounded text-slate-600 font-mono">15s</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile progress bar strip -->
+    <div class="md:hidden bg-slate-100 px-4 py-1.5 border-t border-slate-200 flex items-center justify-between text-xs">
+      <span class="text-slate-600 font-medium">Urnas Apuradas:</span>
+      <div class="flex items-center gap-2">
+        <span id="mobile-secoes-percent" class="font-bold text-patriota-verde">--%</span>
+        <div class="w-24 bg-slate-200 h-1.5 rounded-full overflow-hidden">
+          <div id="mobile-secoes-bar" class="bg-patriota-verde h-full rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PATRIOTIC MOTTO BANNER -->
+  <div class="bg-gradient-to-r from-patriota-verdeDark via-patriota-verde to-patriota-azul py-2 text-white shadow-inner">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left text-xs font-bold uppercase tracking-wider">
+      <div class="flex items-center gap-2 justify-center">
+        <span>🇧🇷</span>
+        <span>Deus • Pátria • Família • Liberdade</span>
+      </div>
+      <div class="text-[11px] text-emerald-100 font-medium flex items-center gap-2">
+        <span>Pleito Eleitoral 2026</span>
+        <span>•</span>
+        <span id="header-fonte-badge">Fonte Oficial: TSE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+    <!-- CLEAN STATS METRICS -->
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-3.5 hover:shadow transition">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 text-patriota-azul flex items-center justify-center text-lg font-bold border border-blue-100">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Eleitorado Total (SP)</p>
+          <p id="stat-eleitores" class="text-base sm:text-lg font-black text-slate-900">34.667.793</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-3.5 hover:shadow transition">
+        <div class="w-11 h-11 rounded-xl bg-emerald-50 text-patriota-verde flex items-center justify-center text-lg font-bold border border-emerald-100">
+          <i class="fa-solid fa-check-double"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Votos Válidos</p>
+          <p id="stat-validos" class="text-base sm:text-lg font-black text-slate-900">0</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-3.5 hover:shadow transition">
+        <div class="w-11 h-11 rounded-xl bg-amber-50 text-patriota-amareloOuro flex items-center justify-center text-lg font-bold border border-amber-100">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Última Atualização</p>
+          <p id="stat-update-time" class="text-base sm:text-lg font-black text-slate-900 font-mono">--:--:--</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-3.5 hover:shadow transition">
+        <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-lg font-bold border border-indigo-100">
+          <i class="fa-solid fa-city"></i>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 font-medium">Cidades em Destaque</p>
+          <p id="stat-cidades-count" class="text-base sm:text-lg font-black text-slate-900">25 municípios</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- HERO SPOTLIGHT: CAPITÃO AUGUSTO & DANI ALONSO (CLEAN PATRIOTIC) -->
+    <!-- ================================================================= -->
+    <section class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm relative">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 relative z-10 border-b border-slate-100 pb-5">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-patriota-verde text-white shadow-sm mb-2">
+            <i class="fa-solid fa-star text-patriota-amarelo"></i> Destaque Patriota • Eleições 2026
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            Capitão Augusto & Dani Alonso
+          </h2>
+          <p class="text-sm text-slate-500 mt-0.5">
+            Acompanhamento prioritário de votos do Casal 22 no estado de São Paulo e nas cidades-base
+          </p>
+        </div>
+
+        <!-- Slogan Badge -->
+        <div class="flex items-center gap-2">
+          <span class="px-4 py-2 rounded-2xl bg-blue-50 text-patriota-azul font-black border border-blue-200 text-xs sm:text-sm flex items-center gap-2 shadow-sm">
+            <span class="w-3 h-3 rounded-full bg-patriota-azul"></span>
+            PARTIDO LIBERAL (PL 22)
+          </span>
+        </div>
+      </div>
+
+      <!-- SPOTLIGHT CARDS: 2 COLUMNS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+
+        <!-- CARD 1: CAPITÃO AUGUSTO -->
+        <div class="bg-white rounded-2xl border-2 border-patriota-verde/30 p-6 shadow-sm hover:shadow-md transition relative group overflow-hidden">
+          <div class="absolute top-0 left-0 w-2 h-full bg-patriota-verde"></div>
+          
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 ml-2">
+            <!-- Candidate Photo -->
+            <div class="relative flex-shrink-0">
+              <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-white border-2 border-patriota-verde shadow-md relative">
+                <img src="/fotos/capitao.png" alt="Capitão Augusto" class="w-full h-full object-cover object-top candidate-photo transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='/fotos/CAPITÃO.png';">
+              </div>
+              <div class="absolute -bottom-2.5 -right-2 bg-patriota-azul text-white font-black text-sm px-3 py-1 rounded-xl shadow-md border-2 border-patriota-amarelo flex items-center gap-1">
+                <span>2200</span>
+              </div>
+            </div>
+
+            <!-- Candidate Info & Numbers -->
+            <div class="flex-1 text-center sm:text-left space-y-3.5 w-full">
+              <div class="flex flex-wrap items-center justify-center sm:justify-between gap-2">
+                <div>
+                  <span class="text-xs uppercase font-extrabold tracking-wider text-patriota-verde">Deputado Federal • SP</span>
+                  <h3 class="text-2xl font-black text-slate-900">Capitão Augusto</h3>
+                </div>
+                <span id="badge-situacao-capitao" class="px-3 py-1 rounded-full text-xs font-black bg-patriota-verde text-white shadow-sm">
+                  <i class="fa-solid fa-satellite-dish mr-1"></i> REGISTRADO NO TSE
+                </span>
+              </div>
+
+              <!-- Main Votes Display Clean -->
+              <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs text-slate-500 font-semibold">Total de Votos no Estado de São Paulo</p>
+                <div class="flex items-baseline justify-between mt-1">
+                  <span id="capitao-total-votos" class="text-3xl font-black text-slate-900 tracking-tight">0</span>
+                  <span class="text-patriota-verde font-black text-xs bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                    <span id="capitao-percent-votos">0,00%</span> válidos
+                  </span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-2">
+                  <div class="bg-gradient-to-r from-patriota-verde to-emerald-500 h-full rounded-full" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- Top Cities Highlights -->
+              <div>
+                <p class="text-xs text-slate-600 font-bold mb-1.5 flex items-center gap-1.5">
+                  <i class="fa-solid fa-trophy text-patriota-amareloOuro text-xs"></i> Cidades Mais Votadas:
+                </p>
+                <div id="capitao-top-cidades" class="grid grid-cols-3 gap-2 text-xs">
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Marília</p>
+                    <p class="font-black text-patriota-verde text-sm">0</p>
+                  </div>
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Ourinhos</p>
+                    <p class="font-black text-patriota-verde text-sm">0</p>
+                  </div>
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Bauru</p>
+                    <p class="font-black text-patriota-verde text-sm">0</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: DANI ALONSO -->
+        <div class="bg-white rounded-2xl border-2 border-patriota-azul/30 p-6 shadow-sm hover:shadow-md transition relative group overflow-hidden">
+          <div class="absolute top-0 left-0 w-2 h-full bg-patriota-azul"></div>
+
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 ml-2">
+            <!-- Candidate Photo -->
+            <div class="relative flex-shrink-0">
+              <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-white border-2 border-patriota-azul shadow-md relative">
+                <img src="/fotos/dani.png" alt="Dani Alonso" class="w-full h-full object-cover object-top candidate-photo transition-transform duration-300 group-hover:scale-105" onerror="this.onerror=null; this.src='/fotos/DANI.png';">
+              </div>
+              <div class="absolute -bottom-2.5 -right-2 bg-patriota-azul text-white font-black text-sm px-3 py-1 rounded-xl shadow-md border-2 border-patriota-amarelo flex items-center gap-1">
+                <span>22322</span>
+              </div>
+            </div>
+
+            <!-- Candidate Info & Numbers -->
+            <div class="flex-1 text-center sm:text-left space-y-3.5 w-full">
+              <div class="flex flex-wrap items-center justify-center sm:justify-between gap-2">
+                <div>
+                  <span class="text-xs uppercase font-extrabold tracking-wider text-patriota-azul">Deputada Estadual • SP</span>
+                  <h3 class="text-2xl font-black text-slate-900">Dani Alonso</h3>
+                </div>
+                <span id="badge-situacao-dani" class="px-3 py-1 rounded-full text-xs font-black bg-patriota-azul text-white shadow-sm">
+                  <i class="fa-solid fa-satellite-dish mr-1"></i> REGISTRADA NO TSE
+                </span>
+              </div>
+
+              <!-- Main Votes Display Clean -->
+              <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <p class="text-xs text-slate-500 font-semibold">Total de Votos no Estado de São Paulo</p>
+                <div class="flex items-baseline justify-between mt-1">
+                  <span id="dani-total-votos" class="text-3xl font-black text-slate-900 tracking-tight">0</span>
+                  <span class="text-patriota-azul font-black text-xs bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-200">
+                    <span id="dani-percent-votos">0,00%</span> válidos
+                  </span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-2">
+                  <div class="bg-gradient-to-r from-patriota-azul to-blue-500 h-full rounded-full" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- Top Cities Highlights -->
+              <div>
+                <p class="text-xs text-slate-600 font-bold mb-1.5 flex items-center gap-1.5">
+                  <i class="fa-solid fa-trophy text-patriota-amareloOuro text-xs"></i> Cidades Mais Votadas:
+                </p>
+                <div id="dani-top-cidades" class="grid grid-cols-3 gap-2 text-xs">
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Marília</p>
+                    <p class="font-black text-patriota-azul text-sm">0</p>
+                  </div>
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Bauru</p>
+                    <p class="font-black text-patriota-azul text-sm">0</p>
+                  </div>
+                  <div class="bg-white p-2 rounded-xl border border-slate-200 text-center shadow-xs">
+                    <p class="text-slate-600 font-medium truncate">Ourinhos</p>
+                    <p class="font-black text-patriota-azul text-sm">0</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- INTERACTIVE SECTION: VOTOS POR CIDADE / MUNICÍPIOS (CLEAN & FAST) -->
+    <!-- ================================================================= -->
+    <section class="space-y-5">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200 mb-1.5">
+            <i class="fa-solid fa-map-location-dot text-patriota-verde"></i> Votação por Municípios
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">
+            Pesquisa de Cidades em Tempo Real
+          </h2>
+          <p class="text-sm text-slate-500">
+            Busca instantânea de votos por município em São Paulo com os números de Capitão Augusto e Dani Alonso
+          </p>
+        </div>
+
+        <!-- Instant Search Box -->
+        <div class="w-full md:w-96 relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input 
+            type="text" 
+            id="input-busca-cidade" 
+            placeholder="Digite o nome da cidade (ex: Marília, Ourinhos, Bauru...)" 
+            class="w-full pl-11 pr-10 py-3 rounded-2xl bg-white border border-slate-300 focus:border-patriota-verde focus:ring-2 focus:ring-emerald-500/20 text-slate-900 placeholder-slate-400 text-sm outline-none transition shadow-sm"
+          >
+          <button id="btn-limpar-busca" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 text-sm">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters & Sorting Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+        <!-- Region Filter Pills -->
+        <div class="flex flex-wrap items-center gap-1.5 text-xs">
+          <span class="text-slate-500 font-semibold mr-1 hidden sm:inline">Região:</span>
+          <button class="btn-regiao-filter active px-3.5 py-1.5 rounded-xl bg-patriota-verde text-white font-bold transition shadow-xs" data-regiao="todas">Todas</button>
+          <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition" data-regiao="Centro-Oeste Paulista">Centro-Oeste</button>
+          <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition" data-regiao="Região de Ourinhos">Ourinhos</button>
+          <button class="btn-regiao-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition" data-regiao="Região de Bauru">Bauru</button>
+        </div>
+
+        <!-- Sorting Selector -->
+        <div class="flex items-center gap-2 text-xs">
+          <span class="text-slate-500 font-semibold">Ordenar por:</span>
+          <select id="select-ordenar-cidades" class="bg-slate-50 text-slate-700 border border-slate-300 rounded-xl px-3 py-1.5 outline-none focus:border-patriota-verde text-xs font-bold cursor-pointer">
+            <option value="capitao_votos">Mais Votos: Capitão Augusto</option>
+            <option value="dani_votos">Mais Votos: Dani Alonso</option>
+            <option value="capitao_pct">% Maior: Capitão Augusto</option>
+            <option value="dani_pct">% Maior: Dani Alonso</option>
+            <option value="nome">Nome da Cidade (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CITIES TABLE CLEAN & HIGH-CONTRAST -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <!-- Desktop Header -->
+        <div class="hidden md:grid grid-cols-12 gap-4 px-6 py-3.5 bg-slate-50 border-b border-slate-200 text-xs font-extrabold uppercase tracking-wider text-slate-600">
+          <div class="col-span-3">Cidade / Região</div>
+          <div class="col-span-3 text-center text-patriota-verde">Capitão Augusto (2200)</div>
+          <div class="col-span-3 text-center text-patriota-azul">Dani Alonso (22322)</div>
+          <div class="col-span-3 text-right">Votos Válidos / Apuração</div>
+        </div>
+
+        <!-- Dynamic List Container -->
+        <div id="cidades-list-container" class="divide-y divide-slate-100">
+          <div class="p-12 text-center text-slate-400">
+            <i class="fa-solid fa-spinner fa-spin text-2xl text-patriota-verde mb-2"></i>
+            <p class="font-medium">Carregando apuração das cidades...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- GENERAL RESULTS: TODOS OS CANDIDATOS 2026 -->
+    <!-- ================================================================= -->
+    <section class="space-y-5 pt-6 border-t border-slate-200">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200 mb-1.5">
+            <i class="fa-solid fa-list-ol text-patriota-azul"></i> Quadro Completo
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">
+            Resultado Geral de Todos os Candidatos 2026
+          </h2>
+          <p class="text-sm text-slate-500">
+            Veja a contagem oficial para Presidente, Governador, Senador, Deputado Federal e Estadual
+          </p>
+        </div>
+
+        <!-- Candidate Search -->
+        <div class="w-full md:w-80 relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          <input 
+            type="text" 
+            id="input-busca-candidato" 
+            placeholder="Filtrar por nome ou número..." 
+            class="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white border border-slate-300 focus:border-patriota-verde focus:ring-2 focus:ring-emerald-500/20 text-slate-900 placeholder-slate-400 text-sm outline-none transition shadow-sm"
+          >
+        </div>
+      </div>
+
+      <!-- CARGO TABS CLEAN -->
+      <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2">
+        <button class="btn-cargo-tab active px-4 py-2.5 rounded-xl bg-patriota-verde text-white font-black text-xs sm:text-sm shadow-sm transition" data-cargo="deputadoFederal">
+          <i class="fa-solid fa-landmark mr-1.5"></i> Deputado Federal (SP)
+        </button>
+        <button class="btn-cargo-tab px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 transition" data-cargo="deputadoEstadual">
+          <i class="fa-solid fa-building-columns mr-1.5"></i> Deputado Estadual (SP)
+        </button>
+        <button class="btn-cargo-tab px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 transition" data-cargo="presidente">
+          <i class="fa-solid fa-flag mr-1.5"></i> Presidente
+        </button>
+        <button class="btn-cargo-tab px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 transition" data-cargo="governador">
+          <i class="fa-solid fa-city mr-1.5"></i> Governador (SP)
+        </button>
+        <button class="btn-cargo-tab px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 transition" data-cargo="senador">
+          <i class="fa-solid fa-feather mr-1.5"></i> Senador (SP)
+        </button>
+      </div>
+
+      <!-- Scope Filter: Brasil Inteiro vs Todos os 27 Estados -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-earth-americas text-patriota-verde"></i> Abrangência:
+          </span>
+          <div class="flex flex-wrap items-center gap-1.5 text-xs">
+            <button class="btn-uf-filter active px-3.5 py-1.5 rounded-xl bg-patriota-azul text-white font-black shadow-xs transition" data-uf="BR">
+              🇧🇷 Brasil Inteiro (Nacional)
+            </button>
+            <button class="btn-uf-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition" data-uf="SP">
+              SP (São Paulo)
+            </button>
+            <button class="btn-uf-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition" data-uf="MG">
+              MG (Minas Gerais)
+            </button>
+            <button class="btn-uf-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition" data-uf="RJ">
+              RJ (Rio de Janeiro)
+            </button>
+            <button class="btn-uf-filter px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition" data-uf="PR">
+              PR (Paraná)
+            </button>
+          </div>
+
+          <!-- Complete States Selector (All 27 UFs) -->
+          <div class="flex items-center gap-1.5 ml-1">
+            <span class="text-xs text-slate-400 font-medium hidden sm:inline">Outro Estado:</span>
+            <select id="select-uf-completo" class="bg-slate-50 text-slate-700 border border-slate-300 rounded-xl px-2.5 py-1.5 text-xs font-bold outline-none focus:border-patriota-azul cursor-pointer">
+              <option value="">Selecione o Estado (UF)...</option>
+              <option value="AC">AC - Acre</option>
+              <option value="AL">AL - Alagoas</option>
+              <option value="AP">AP - Amapá</option>
+              <option value="AM">AM - Amazonas</option>
+              <option value="BA">BA - Bahia</option>
+              <option value="CE">CE - Ceará</option>
+              <option value="DF">DF - Distrito Federal</option>
+              <option value="ES">ES - Espírito Santo</option>
+              <option value="GO">GO - Goiás</option>
+              <option value="MA">MA - Maranhão</option>
+              <option value="MT">MT - Mato Grosso</option>
+              <option value="MS">MS - Mato Grosso do Sul</option>
+              <option value="MG">MG - Minas Gerais</option>
+              <option value="PA">PA - Pará</option>
+              <option value="PB">PB - Paraíba</option>
+              <option value="PR">PR - Paraná</option>
+              <option value="PE">PE - Pernambuco</option>
+              <option value="PI">PI - Piauí</option>
+              <option value="RJ">RJ - Rio de Janeiro</option>
+              <option value="RN">RN - Rio Grande do Norte</option>
+              <option value="RS">RS - Rio Grande do Sul</option>
+              <option value="RO">RO - Rondônia</option>
+              <option value="RR">RR - Roraima</option>
+              <option value="SC">SC - Santa Catarina</option>
+              <option value="SP">SP - São Paulo</option>
+              <option value="SE">SE - Sergipe</option>
+              <option value="TO">TO - Tocantins</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-500 font-medium">
+          <span id="label-scope-status">Visualizando: <strong class="text-slate-800">Brasil Inteiro (513 Deputados Federais)</strong></span>
+        </div>
+      </div>
+
+      <!-- Party Filter Chips -->
+      <div class="flex flex-wrap items-center gap-1.5 text-xs">
+        <span class="text-slate-500 font-bold mr-1">Partidos:</span>
+        <button class="btn-partido-filter active px-3 py-1 rounded-lg bg-slate-800 text-white font-bold" data-partido="todos">Todos</button>
+        <button class="btn-partido-filter px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" data-partido="PL">PL</button>
+        <button class="btn-partido-filter px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" data-partido="REPUBLICANOS">REPUBLICANOS</button>
+        <button class="btn-partido-filter px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" data-partido="UNIÃO">UNIÃO</button>
+        <button class="btn-partido-filter px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" data-partido="NOVO">NOVO</button>
+        <button class="btn-partido-filter px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" data-partido="MDB">MDB</button>
+        <button class="btn-partido-filter px-3 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold" data-partido="PT">PT</button>
+      </div>
+
+      <!-- CANDIDATES LIST CLEAN -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        <div id="candidatos-list-container" class="divide-y divide-slate-100">
+          <div class="p-12 text-center text-slate-400">
+            <i class="fa-solid fa-spinner fa-spin text-2xl text-patriota-verde mb-2"></i>
+            <p class="font-medium">Carregando candidatos...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+
+  <!-- CLEAN PATRIOTIC FOOTER -->
+  <footer class="border-t border-slate-200 bg-white py-10 text-center text-xs text-slate-500 mt-16">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <div class="flex items-center justify-center gap-2 text-base font-black text-slate-800 mb-1">
+        <span>🇧🇷</span>
+        <span>Acompanhamento Eleitoral Oficial • Eleições 2026</span>
+      </div>
+      <p class="text-slate-600 font-medium">
+        Foco prioritário: Capitão Augusto (Deputado Federal 2200) & Dani Alonso (Deputada Estadual 22322) • PL
+      </p>
+      <p class="text-slate-400">
+        Dados sincronizados e formatados conforme especificações de apuração e resoluções do TSE.
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

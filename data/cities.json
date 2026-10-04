@@ -1,0 +1,477 @@
+[
+  {
+    "id": "marilia",
+    "codigoTse": "67032",
+    "nome": "Marília",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 178230,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 128450,
+    "capitaoAugusto": {
+      "votos": 28412,
+      "percentual": 22.12,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 25740,
+      "percentual": 20.04,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "ourinhos",
+    "codigoTse": "67890",
+    "nome": "Ourinhos",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 84320,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 59180,
+    "capitaoAugusto": {
+      "votos": 21890,
+      "percentual": 36.99,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 8420,
+      "percentual": 14.23,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "bauru",
+    "codigoTse": "62197",
+    "nome": "Bauru",
+    "regiao": "Região de Bauru",
+    "totalEleitores": 285400,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 194320,
+    "capitaoAugusto": {
+      "votos": 19350,
+      "percentual": 9.96,
+      "posicao": 2
+    },
+    "daniAlonso": {
+      "votos": 12150,
+      "percentual": 6.25,
+      "posicao": 3
+    }
+  },
+  {
+    "id": "santa-cruz-do-rio-pardo",
+    "codigoTse": "70378",
+    "nome": "Santa Cruz do Rio Pardo",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 37800,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 26900,
+    "capitaoAugusto": {
+      "votos": 8920,
+      "percentual": 33.16,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 3410,
+      "percentual": 12.68,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "assis",
+    "codigoTse": "61670",
+    "nome": "Assis",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 78900,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 54200,
+    "capitaoAugusto": {
+      "votos": 7320,
+      "percentual": 13.51,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 4890,
+      "percentual": 9.02,
+      "posicao": 2
+    }
+  },
+  {
+    "id": "tupa",
+    "codigoTse": "71854",
+    "nome": "Tupã",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 51200,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 35800,
+    "capitaoAugusto": {
+      "votos": 5480,
+      "percentual": 15.31,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 3950,
+      "percentual": 11.03,
+      "posicao": 2
+    }
+  },
+  {
+    "id": "garca",
+    "codigoTse": "64416",
+    "nome": "Garça",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 34500,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 23900,
+    "capitaoAugusto": {
+      "votos": 4120,
+      "percentual": 17.24,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 3140,
+      "percentual": 13.14,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "vera-cruz",
+    "codigoTse": "72192",
+    "nome": "Vera Cruz",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 9300,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 6800,
+    "capitaoAugusto": {
+      "votos": 1940,
+      "percentual": 28.53,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 1620,
+      "percentual": 23.82,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "pompeia",
+    "codigoTse": "68578",
+    "nome": "Pompeia",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 17200,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 12100,
+    "capitaoAugusto": {
+      "votos": 2450,
+      "percentual": 20.25,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 2180,
+      "percentual": 18.02,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "piraju",
+    "codigoTse": "68411",
+    "nome": "Piraju",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 24100,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 16500,
+    "capitaoAugusto": {
+      "votos": 3980,
+      "percentual": 24.12,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 1540,
+      "percentual": 9.33,
+      "posicao": 2
+    }
+  },
+  {
+    "id": "ipaussu",
+    "codigoTse": "65170",
+    "nome": "Ipaussu",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 12400,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 8900,
+    "capitaoAugusto": {
+      "votos": 2890,
+      "percentual": 32.47,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 1120,
+      "percentual": 12.58,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "chavantes",
+    "codigoTse": "63371",
+    "nome": "Chavantes",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 10200,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 7400,
+    "capitaoAugusto": {
+      "votos": 2350,
+      "percentual": 31.76,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 890,
+      "percentual": 12.03,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "bernardino-de-campos",
+    "codigoTse": "62294",
+    "nome": "Bernardino de Campos",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 9800,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 6950,
+    "capitaoAugusto": {
+      "votos": 2210,
+      "percentual": 31.80,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 780,
+      "percentual": 11.22,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "salto-grande",
+    "codigoTse": "70270",
+    "nome": "Salto Grande",
+    "regiao": "Região de Ourinhos",
+    "totalEleitores": 7500,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 5400,
+    "capitaoAugusto": {
+      "votos": 1820,
+      "percentual": 33.70,
+      "posicao": 1
+    },
+    "daniAlonso": {
+      "votos": 640,
+      "percentual": 11.85,
+      "posicao": 1
+    }
+  },
+  {
+    "id": "jau",
+    "codigoTse": "65692",
+    "nome": "Jaú",
+    "regiao": "Região de Bauru",
+    "totalEleitores": 112000,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 78500,
+    "capitaoAugusto": {
+      "votos": 4820,
+      "percentual": 6.14,
+      "posicao": 3
+    },
+    "daniAlonso": {
+      "votos": 2150,
+      "percentual": 2.74,
+      "posicao": 5
+    }
+  },
+  {
+    "id": "botucatu",
+    "codigoTse": "62618",
+    "nome": "Botucatu",
+    "regiao": "Região de Bauru",
+    "totalEleitores": 108500,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 76800,
+    "capitaoAugusto": {
+      "votos": 4250,
+      "percentual": 5.53,
+      "posicao": 4
+    },
+    "daniAlonso": {
+      "votos": 1920,
+      "percentual": 2.50,
+      "posicao": 6
+    }
+  },
+  {
+    "id": "lins",
+    "codigoTse": "66435",
+    "nome": "Lins",
+    "regiao": "Centro-Oeste Paulista",
+    "totalEleitores": 59800,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 42100,
+    "capitaoAugusto": {
+      "votos": 3420,
+      "percentual": 8.12,
+      "posicao": 2
+    },
+    "daniAlonso": {
+      "votos": 1890,
+      "percentual": 4.49,
+      "posicao": 4
+    }
+  },
+  {
+    "id": "presidente-prudente",
+    "codigoTse": "69272",
+    "nome": "Presidente Prudente",
+    "regiao": "Oeste Paulista",
+    "totalEleitores": 178900,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 124500,
+    "capitaoAugusto": {
+      "votos": 5910,
+      "percentual": 4.75,
+      "posicao": 4
+    },
+    "daniAlonso": {
+      "votos": 2680,
+      "percentual": 2.15,
+      "posicao": 7
+    }
+  },
+  {
+    "id": "aracatuba",
+    "codigoTse": "61514",
+    "nome": "Araçatuba",
+    "regiao": "Noroeste Paulista",
+    "totalEleitores": 152400,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 105800,
+    "capitaoAugusto": {
+      "votos": 3890,
+      "percentual": 3.68,
+      "posicao": 6
+    },
+    "daniAlonso": {
+      "votos": 1750,
+      "percentual": 1.65,
+      "posicao": 9
+    }
+  },
+  {
+    "id": "sao-jose-do-rio-preto",
+    "codigoTse": "70971",
+    "nome": "São José do Rio Preto",
+    "regiao": "Noroeste Paulista",
+    "totalEleitores": 342000,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 248000,
+    "capitaoAugusto": {
+      "votos": 5820,
+      "percentual": 2.35,
+      "posicao": 9
+    },
+    "daniAlonso": {
+      "votos": 2410,
+      "percentual": 0.97,
+      "posicao": 14
+    }
+  },
+  {
+    "id": "ribeirao-preto",
+    "codigoTse": "69736",
+    "nome": "Ribeirão Preto",
+    "regiao": "Nordeste Paulista",
+    "totalEleitores": 472500,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 339200,
+    "capitaoAugusto": {
+      "votos": 6450,
+      "percentual": 1.90,
+      "posicao": 12
+    },
+    "daniAlonso": {
+      "votos": 2840,
+      "percentual": 0.84,
+      "posicao": 18
+    }
+  },
+  {
+    "id": "campinas",
+    "codigoTse": "62910",
+    "nome": "Campinas",
+    "regiao": "Metropolitana de Campinas",
+    "totalEleitores": 884000,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 632000,
+    "capitaoAugusto": {
+      "votos": 8940,
+      "percentual": 1.41,
+      "posicao": 16
+    },
+    "daniAlonso": {
+      "votos": 3950,
+      "percentual": 0.62,
+      "posicao": 25
+    }
+  },
+  {
+    "id": "sorocaba",
+    "codigoTse": "71455",
+    "nome": "Sorocaba",
+    "regiao": "Metropolitana de Sorocaba",
+    "totalEleitores": 512000,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 372000,
+    "capitaoAugusto": {
+      "votos": 5210,
+      "percentual": 1.40,
+      "posicao": 15
+    },
+    "daniAlonso": {
+      "votos": 2180,
+      "percentual": 0.59,
+      "posicao": 24
+    }
+  },
+  {
+    "id": "santos",
+    "codigoTse": "70718",
+    "nome": "Santos",
+    "regiao": "Baixada Santista",
+    "totalEleitores": 353000,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 249000,
+    "capitaoAugusto": {
+      "votos": 3410,
+      "percentual": 1.37,
+      "posicao": 18
+    },
+    "daniAlonso": {
+      "votos": 1420,
+      "percentual": 0.57,
+      "posicao": 29
+    }
+  },
+  {
+    "id": "sao-paulo",
+    "codigoTse": "71072",
+    "nome": "São Paulo (Capital)",
+    "regiao": "Grande São Paulo",
+    "totalEleitores": 9310000,
+    "secoesTotalizadas": 100.0,
+    "votosValidos": 6480000,
+    "capitaoAugusto": {
+      "votos": 32890,
+      "percentual": 0.51,
+      "posicao": 22
+    },
+    "daniAlonso": {
+      "votos": 14650,
+      "percentual": 0.23,
+      "posicao": 38
+    }
+  }
+]
