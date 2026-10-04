@@ -386,73 +386,76 @@ function renderCidades() {
     const isDestaque = DESTAQUE_CIDADES.map(n => n.toLowerCase()).includes(c.nome.toLowerCase());
 
     return `
-      <div class="p-4 sm:px-6 hover:bg-slate-50 transition duration-150 ${isDestaque ? 'bg-amber-50/20 border-l-4 border-l-amber-500' : ''}">
+      <div class="p-3.5 sm:p-5 hover:bg-slate-50 transition duration-150 ${isDestaque ? 'bg-amber-50/20 border-l-4 border-l-amber-500' : ''}">
         <!-- Desktop Grid View -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
           
           <!-- Cidade e Região -->
-          <div class="md:col-span-3 flex items-center gap-3">
-            <span class="w-7 h-7 rounded-lg ${isDestaque ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-slate-100 text-slate-600 border-slate-200'} text-xs font-black flex items-center justify-center flex-shrink-0 border">
-              ${index + 1}
-            </span>
-            <div>
-              <div class="flex items-center gap-2">
-                <h4 class="font-black text-slate-900 text-base hover:text-patriota-verde transition cursor-pointer">
-                  ${c.nome}
-                </h4>
-                ${isDestaque ? `
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1 shadow-xs">
-                    <i class="fa-solid fa-star text-amber-500 text-[9px]"></i> DESTAQUE
-                  </span>
-                ` : ''}
+          <div class="md:col-span-3 flex items-center justify-between md:justify-start gap-2.5 sm:gap-3">
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg ${isDestaque ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-slate-100 text-slate-600 border-slate-200'} text-xs font-black flex items-center justify-center flex-shrink-0 border">
+                ${index + 1}
+              </span>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 class="font-black text-slate-900 text-sm sm:text-base hover:text-patriota-verde transition cursor-pointer truncate">
+                    ${c.nome}
+                  </h4>
+                  ${isDestaque ? `
+                    <span class="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1 shadow-xs">
+                      <i class="fa-solid fa-star text-amber-500 text-[8px]"></i> DESTAQUE
+                    </span>
+                  ` : ''}
+                </div>
+                <p class="text-[11px] sm:text-xs text-slate-500 font-medium truncate">${c.regiao} • Cód. ${c.codigoTse}</p>
               </div>
-              <p class="text-xs text-slate-500 font-medium">${c.regiao} • Cód. TSE ${c.codigoTse}</p>
             </div>
           </div>
 
-          <!-- Votação Capitão Augusto -->
-          <div class="md:col-span-3 bg-emerald-50/40 md:bg-transparent p-3 md:p-0 rounded-xl border border-emerald-100 md:border-none">
-            <div class="flex items-center justify-between md:justify-center gap-2">
-              <span class="md:hidden text-xs font-bold text-patriota-verde">Capitão Augusto (2200):</span>
-              <div class="text-right md:text-center">
-                <span class="font-black text-slate-900 text-base">${fmtNum(c.capitaoAugusto.votos)} votos</span>
-                <div class="flex items-center justify-end md:justify-center gap-1.5 text-xs text-patriota-verde font-black">
-                  <span>${fmtPct(c.capitaoAugusto.percentual)}</span>
-                  <span class="text-[10px] text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${c.capitaoAugusto.votos > 0 ? '#' + c.capitaoAugusto.posicao + ' na cidade' : 'Aguardando urnas'}</span>
+          <!-- Mobile 2-column or Desktop 12-col -->
+          <div class="grid grid-cols-2 gap-2 md:contents">
+            <!-- Votação Capitão Augusto -->
+            <div class="bg-emerald-50/60 md:bg-transparent p-2.5 md:p-0 rounded-xl border border-emerald-100 md:border-none md:col-span-3">
+              <div class="flex flex-col md:flex-row items-start md:items-center justify-between md:justify-center gap-1">
+                <span class="text-[11px] sm:text-xs font-bold text-patriota-verde md:hidden truncate">Capitão (2200):</span>
+                <div class="w-full text-left md:text-center">
+                  <div class="font-black text-slate-900 text-sm sm:text-base">${fmtNum(c.capitaoAugusto.votos)} <span class="text-[11px] font-normal text-slate-500 md:hidden">votos</span></div>
+                  <div class="flex items-center justify-between md:justify-center gap-1 text-[11px] sm:text-xs text-patriota-verde font-black">
+                    <span>${fmtPct(c.capitaoAugusto.percentual)}</span>
+                    <span class="text-[9px] text-slate-600 bg-slate-100 px-1 py-0.2 rounded border border-slate-200">${c.capitaoAugusto.votos > 0 ? '#' + c.capitaoAugusto.posicao : 'Aguardando'}</span>
+                  </div>
                 </div>
               </div>
+              <div class="w-full bg-slate-200 h-1 rounded-full overflow-hidden mt-1.5">
+                <div class="bg-patriota-verde h-full rounded-full transition-all duration-500" style="width: ${capPctBar}%"></div>
+              </div>
             </div>
-            <!-- Progress mini bar -->
-            <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1.5">
-              <div class="bg-patriota-verde h-full rounded-full transition-all duration-500" style="width: ${capPctBar}%"></div>
-            </div>
-          </div>
 
-          <!-- Votação Dani Alonso -->
-          <div class="md:col-span-3 bg-blue-50/40 md:bg-transparent p-3 md:p-0 rounded-xl border border-blue-100 md:border-none">
-            <div class="flex items-center justify-between md:justify-center gap-2">
-              <span class="md:hidden text-xs font-bold text-patriota-azul">Dani Alonso (22322):</span>
-              <div class="text-right md:text-center">
-                <span class="font-black text-slate-900 text-base">${fmtNum(c.daniAlonso.votos)} votos</span>
-                <div class="flex items-center justify-end md:justify-center gap-1.5 text-xs text-patriota-azul font-black">
-                  <span>${fmtPct(c.daniAlonso.percentual)}</span>
-                  <span class="text-[10px] text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">${c.daniAlonso.votos > 0 ? '#' + c.daniAlonso.posicao + ' na cidade' : 'Aguardando urnas'}</span>
+            <!-- Votação Dani Alonso -->
+            <div class="bg-blue-50/60 md:bg-transparent p-2.5 md:p-0 rounded-xl border border-blue-100 md:border-none md:col-span-3">
+              <div class="flex flex-col md:flex-row items-start md:items-center justify-between md:justify-center gap-1">
+                <span class="text-[11px] sm:text-xs font-bold text-patriota-azul md:hidden truncate">Dani Alonso (22322):</span>
+                <div class="w-full text-left md:text-center">
+                  <div class="font-black text-slate-900 text-sm sm:text-base">${fmtNum(c.daniAlonso.votos)} <span class="text-[11px] font-normal text-slate-500 md:hidden">votos</span></div>
+                  <div class="flex items-center justify-between md:justify-center gap-1 text-[11px] sm:text-xs text-patriota-azul font-black">
+                    <span>${fmtPct(c.daniAlonso.percentual)}</span>
+                    <span class="text-[9px] text-slate-600 bg-slate-100 px-1 py-0.2 rounded border border-slate-200">${c.daniAlonso.votos > 0 ? '#' + c.daniAlonso.posicao : 'Aguardando'}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Progress mini bar -->
-            <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1.5">
-              <div class="bg-patriota-azul h-full rounded-full transition-all duration-500" style="width: ${daniPctBar}%"></div>
+              <div class="w-full bg-slate-200 h-1 rounded-full overflow-hidden mt-1.5">
+                <div class="bg-patriota-azul h-full rounded-full transition-all duration-500" style="width: ${daniPctBar}%"></div>
+              </div>
             </div>
           </div>
 
           <!-- Total Válidos / Seções -->
-          <div class="md:col-span-3 flex items-center justify-between md:justify-end gap-3 text-xs">
+          <div class="md:col-span-3 flex items-center justify-between md:justify-end gap-2 text-xs pt-2 md:pt-0 border-t border-slate-100 md:border-none">
             <div class="text-left md:text-right">
-              <p class="font-bold text-slate-800">${fmtNum(c.votosValidos)} válidos</p>
-              <p class="text-slate-400 font-medium">${c.secoesApuradas ? c.secoesApuradas + ' de ' + c.totalSecoes + ' seções' : (c.totalEleitores ? fmtNum(c.totalEleitores) + ' eleitores' : 'Aguardando')}</p>
+              <p class="font-bold text-slate-800 text-[11px] sm:text-xs">${fmtNum(c.votosValidos)} válidos</p>
+              <p class="text-slate-400 font-medium text-[10px] sm:text-[11px]">${c.secoesApuradas ? c.secoesApuradas + '/' + c.totalSecoes + ' seções' : (c.totalEleitores ? fmtNum(c.totalEleitores) + ' eleit.' : 'Aguardando')}</p>
             </div>
-            <span class="px-2.5 py-1 rounded-lg text-xs font-black ${c.secoesTotalizadas >= 100 ? 'bg-emerald-50 text-patriota-verde border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">
+            <span class="px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-black ${c.secoesTotalizadas >= 100 ? 'bg-emerald-50 text-patriota-verde border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">
               ${c.secoesTotalizadas}% apurado
             </span>
           </div>
@@ -473,7 +476,7 @@ function renderCandidatos() {
   if (buscaCandidato) {
     const q = normalizeStr(buscaCandidato);
     lista = lista.filter(c => 
-      normalizeStr(c.nome).includes(q) ||
+      normalizeStr(c.nome).includes(q) || 
       normalizeStr(c.nomeUrna).includes(q) ||
       c.numero.includes(q) ||
       normalizeStr(c.partido).includes(q)
@@ -486,9 +489,9 @@ function renderCandidatos() {
 
   if (lista.length === 0) {
     container.innerHTML = `
-      <div class="p-12 text-center text-slate-400">
-        <i class="fa-solid fa-user-xmark text-3xl mb-3 text-slate-300"></i>
-        <p class="text-base font-bold text-slate-700">Nenhum candidato encontrado no TSE</p>
+      <div class="p-8 sm:p-12 text-center text-slate-400">
+        <i class="fa-solid fa-user-xmark text-2xl sm:text-3xl mb-2 text-slate-300"></i>
+        <p class="text-sm sm:text-base font-bold text-slate-700">Nenhum candidato encontrado no TSE</p>
         <p class="text-xs text-slate-400 mt-1">Tente outro nome, número ou selecione outro Estado.</p>
       </div>
     `;
@@ -514,16 +517,16 @@ function renderCandidatos() {
     const isElected = c.eleito || (c.situacao && c.situacao.toLowerCase().includes('eleit'));
 
     return `
-      <div class="p-4 sm:px-6 hover:bg-slate-50 transition duration-150 ${isSpecial ? 'bg-emerald-50/30 border-l-4 border-l-patriota-verde' : ''}">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="p-3 sm:px-6 hover:bg-slate-50 transition duration-150 ${isSpecial ? 'bg-emerald-50/30 border-l-4 border-l-patriota-verde' : ''}">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           
           <!-- Rank, Foto Oficial TSE, Nome, Partido -->
-          <div class="flex items-center gap-4">
-            <span class="w-8 h-8 rounded-xl ${c.posicao <= 3 && c.votos > 0 ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-slate-100 text-slate-600 border border-slate-200'} text-xs font-black flex items-center justify-center flex-shrink-0">
+          <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl ${c.posicao <= 3 && c.votos > 0 ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-slate-100 text-slate-600 border-slate-200'} text-xs font-black flex items-center justify-center flex-shrink-0 border">
               ${c.votos > 0 ? '#' + c.posicao : '—'}
             </span>
 
-            <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 ${isSpecial ? 'border-patriota-verde shadow-md' : 'border-slate-200 shadow-xs'} overflow-hidden flex-shrink-0 flex items-center justify-center relative">
+            <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-white border-2 ${isSpecial ? 'border-patriota-verde shadow-md' : 'border-slate-200 shadow-xs'} overflow-hidden flex-shrink-0 flex items-center justify-center relative">
               ${c.foto ? `
                 <img src="${c.foto}" alt="${c.nomeUrna}" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center bg-slate-100 font-black text-slate-500 text-xs\\'>${c.nomeUrna ? c.nomeUrna.slice(0, 2).toUpperCase() : 'BR'}</div>';">
               ` : `
@@ -532,52 +535,52 @@ function renderCandidatos() {
                 </div>
               `}
               ${isSpecial ? `
-                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-patriota-verde rounded-full flex items-center justify-center text-[10px] text-white shadow-xs">
+                <span class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-patriota-verde rounded-full flex items-center justify-center text-[8px] sm:text-[10px] text-white shadow-xs">
                   <i class="fa-solid fa-star"></i>
                 </span>
               ` : ''}
             </div>
 
-            <div>
-              <div class="flex flex-wrap items-center gap-2">
-                <h4 class="font-black text-slate-900 text-base ${isSpecial ? 'text-patriota-verde' : ''}">
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+                <h4 class="font-black text-slate-900 text-sm sm:text-base truncate ${isSpecial ? 'text-patriota-verde' : ''}">
                   ${c.nomeUrna}
                 </h4>
-                <span class="px-2 py-0.5 rounded text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200">
+                <span class="px-1.5 py-0.2 rounded text-[10px] sm:text-xs font-extrabold bg-slate-100 text-slate-700 border border-slate-200">
                   ${c.numero}
                 </span>
                 ${c.uf ? `
-                  <span class="px-2 py-0.5 rounded text-xs font-black bg-blue-50 text-patriota-azul border border-blue-200">
+                  <span class="px-1.5 py-0.2 rounded text-[10px] sm:text-xs font-black bg-blue-50 text-patriota-azul border border-blue-200">
                     ${c.uf}
                   </span>
                 ` : ''}
                 ${isSpecial ? `
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-50 text-patriota-verde border border-emerald-200">
+                  <span class="px-1.5 py-0.2 rounded-full text-[9px] sm:text-[10px] font-black bg-emerald-50 text-patriota-verde border border-emerald-200">
                     DESTAQUE
                   </span>
                 ` : ''}
               </div>
-              <p class="text-xs text-slate-500 font-medium">
+              <p class="text-[11px] sm:text-xs text-slate-500 font-medium truncate mt-0.5">
                 <span class="font-bold text-slate-700">${c.partido}</span> • ${c.nome}
               </p>
             </div>
           </div>
 
           <!-- Votos, Percentual e Situação -->
-          <div class="flex items-center justify-between sm:justify-end gap-6">
-            <div class="text-right">
-              <p class="text-base font-black text-slate-900">${fmtNum(c.votos)} votos</p>
-              <div class="flex items-center justify-end gap-1.5 text-xs text-slate-500 font-medium">
+          <div class="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 pt-1.5 sm:pt-0 border-t border-slate-100 sm:border-none">
+            <div class="text-left sm:text-right">
+              <p class="text-sm sm:text-base font-black text-slate-900">${fmtNum(c.votos)} <span class="text-xs font-normal text-slate-500 sm:hidden">votos</span></p>
+              <div class="flex items-center gap-1 text-[11px] sm:text-xs text-slate-500 font-medium sm:justify-end">
                 <span class="font-black text-patriota-verde">${fmtPct(c.percentual)}</span>
-                <span>dos válidos</span>
+                <span class="hidden xs:inline">dos válidos</span>
               </div>
-              <div class="w-28 sm:w-36 bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1 ml-auto">
+              <div class="w-24 sm:w-36 bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1 ml-0 sm:ml-auto">
                 <div class="bg-gradient-to-r from-patriota-verde to-patriota-amareloOuro h-full rounded-full" style="width: ${pctBar}%"></div>
               </div>
             </div>
 
             <div class="flex-shrink-0">
-              <span class="px-3 py-1 rounded-full text-xs font-black ${isElected ? 'bg-emerald-50 text-patriota-verde border border-emerald-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}">
+              <span class="px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-black ${isElected ? 'bg-emerald-50 text-patriota-verde border border-emerald-200' : 'bg-slate-100 text-slate-600 border border-slate-200'}">
                 ${c.situacao || (isElected ? 'Eleito' : (c.votos > 0 ? 'Em Apuração' : 'Registrado no TSE'))}
               </span>
             </div>
@@ -590,8 +593,8 @@ function renderCandidatos() {
 
   if (totalEncontrados > 50 && !isBuscando && !state.filtros.mostrarTodos) {
     htmlCards += `
-      <div class="p-6 text-center bg-slate-50 border-t border-slate-200">
-        <button id="btn-mostrar-todos-candidatos" class="px-6 py-2.5 rounded-xl bg-patriota-azul hover:bg-blue-900 text-white font-bold text-xs shadow-xs transition active:scale-95">
+      <div class="p-4 sm:p-6 text-center bg-slate-50 border-t border-slate-200">
+        <button id="btn-mostrar-todos-candidatos" class="px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-patriota-azul hover:bg-blue-900 text-white font-bold text-xs shadow-xs transition active:scale-95">
           <i class="fa-solid fa-angles-down mr-1.5"></i> Mostrar todos os ${totalEncontrados} candidatos
         </button>
       </div>
